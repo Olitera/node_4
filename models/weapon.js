@@ -1,5 +1,17 @@
+const { DataTypes } = require('sequelize');
+
 module.exports = (Sequelize, sequelize) => {
   return sequelize.define('weapons', {
-// TODO: field description
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    name: {
+      type: DataTypes.STRING
+    },
+    dps: {
+      type: DataTypes.INTEGER
+    }
   });
 };

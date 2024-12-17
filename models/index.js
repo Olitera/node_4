@@ -3,13 +3,18 @@ const Weapon = require('./weapon');
 const Pizza = require('./pizza');
 
 module.exports = (Sequelize, config) => {
-// TODO: create an object to connect to the database - sequelize
+  const sequelize = new Sequelize(config.database, config.username, config.password, config);
 
   const turtles = Turtle(Sequelize, sequelize);
   const weapons = Weapon(Sequelize, sequelize);
   const pizzas = Pizza(Sequelize , sequelize);
 
-// TODO: create relationships between tables
+  weapons.hasMany(turtles, { as: 'turtles', foreignKey: 'weaponId' });
+  turtles.belongsTo(weapons, { as: 'weapon', foreignKey: 'weaponId' });
+  pizzas.hasMany(turtles, { as: 'firstFavoriteTurtles', foreignKey: 'firstFavoritePizzaId' });
+  pizzas.hasMany(turtles, { as: 'secondFavoriteTurtles', foreignKey: 'secondFavoritePizzaId' });
+  turtles.belongsTo(pizzas, { as: 'firstFavoritePizza', foreignKey: 'firstFavoritePizzaId' });
+  turtles.belongsTo(pizzas, { as: 'secondFavoritePizza', foreignKey: 'secondFavoritePizzaId' });
 
   return {
     turtles,
