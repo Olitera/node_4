@@ -1,0 +1,16 @@
+{
+  "name": "node_4_volha_melayok",
+  "version": "1.0.0",
+  "description": "homework",
+  "main": "index.js",
+  "scripts": {
+    "docker-compocse": "docker-compose up -d"
+  },
+  "author": "Olitera",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.5"
+  }
+}
