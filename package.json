@@ -4,14 +4,19 @@
   "description": "homework",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js",
     "docker-compocse": "docker-compose up -d"
   },
   "author": "Olitera",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.7",
+    "express": "^4.21.2",
     "pg": "^8.13.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }

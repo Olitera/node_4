@@ -1,8 +1,18 @@
 const Sequelize = require('sequelize');
-
+const express = require('express');
 const config = require('./config');
-
 const db = require('./models')(Sequelize, config.development);
+const services = require('./services')(db);
+const routes = require('./routes')(services);
+const app = require('express')();
+
+app.use(express.json());
+app.use('/weapons', routes.weaponsRouter);
+app.use('/turtles', routes.turtlesRouter);
+app.use('/pizzas', routes.pizzasRouter);
+app.use((err) => {
+  console.log(err);
+});
 
 async function syncDatabase() {
   try {
@@ -70,7 +80,7 @@ syncDatabase()
       await db.pizzas.create({
         name: 'Peanut Butter and Salami Pizza With Double Yogurt Topping',
         description: 'Nutty and creamy',
-        calories: 280
+        calories: 3280
       });
       await db.pizzas.create({
         name: 'Pizza With Shredded Coconut and Sweet Pickles',
@@ -105,14 +115,16 @@ syncDatabase()
       await db.pizzas.create({
         name: 'Turtles on the Orient Express Pizza',
         description: 'A exotic and savory combination',
-        calories: 260
+        calories: 3260
       });
+      await db.pizzas.create({ name: 'Mozzarella', description: 'A warm and comforting treat', calories: 220 });
+
 
       await db.turtles.create({
         name: 'Leonardo',
         color: 'Blue',
         weaponId: 1,
-        firstFavoritePizzaId: 10,
+        firstFavoritePizzaId: 26,
         secondFavoritePizzaId: 15
       });
 
@@ -137,11 +149,20 @@ syncDatabase()
         color: 'Red',
         weaponId: 4,
         firstFavoritePizzaId: 11,
-        secondFavoritePizzaId: 23
+        secondFavoritePizzaId: 26
       });
     } catch (error) {
       console.error('Database seeding failed:', error);
     }
+    startApp();
   })
+
+function startApp() {
+  const port = process.env.APP_PORT || 4000;
+
+  app.listen(port, () => {
+    console.log(`\x1b[32m App listening on port ${ port }! \x1b[0m`);
+  });
+}
 
 
